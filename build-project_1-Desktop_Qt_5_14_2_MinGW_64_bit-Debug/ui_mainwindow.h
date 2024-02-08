@@ -11,12 +11,18 @@
 
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QComboBox>
 #include <QtWidgets/QHBoxLayout>
+#include <QtWidgets/QLabel>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QPushButton>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTabWidget>
+#include <QtWidgets/QTextBrowser>
+#include <QtWidgets/QTextEdit>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -30,6 +36,34 @@ public:
     QListWidget *listWidget;
     QTabWidget *tabWidget;
     QWidget *tab_1;
+    QWidget *widget;
+    QHBoxLayout *horizontalLayout_12;
+    QVBoxLayout *verticalLayout;
+    QHBoxLayout *horizontalLayout_10;
+    QLabel *label;
+    QPushButton *pushButton_2;
+    QHBoxLayout *horizontalLayout_8;
+    QLabel *label_7;
+    QComboBox *comboBox_7;
+    QHBoxLayout *horizontalLayout_3;
+    QLabel *label_2;
+    QComboBox *comboBox_2;
+    QHBoxLayout *horizontalLayout_4;
+    QLabel *label_3;
+    QComboBox *comboBox_3;
+    QHBoxLayout *horizontalLayout_5;
+    QLabel *label_4;
+    QComboBox *comboBox_4;
+    QHBoxLayout *horizontalLayout_6;
+    QLabel *label_5;
+    QComboBox *comboBox_5;
+    QTextBrowser *textBrowser;
+    QWidget *widget1;
+    QHBoxLayout *horizontalLayout_11;
+    QVBoxLayout *verticalLayout_2;
+    QPushButton *pushButton;
+    QPushButton *pushButton_3;
+    QTextEdit *textEdit;
     QWidget *tab_2;
     QWidget *tab_3;
     QWidget *tab_4;
@@ -46,7 +80,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(651, 470);
+        MainWindow->resize(793, 470);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         horizontalLayout_2 = new QHBoxLayout(centralwidget);
@@ -81,6 +115,163 @@ public:
         tabWidget->setStyleSheet(QString::fromUtf8("QTabWidget{border:none}"));
         tab_1 = new QWidget();
         tab_1->setObjectName(QString::fromUtf8("tab_1"));
+        widget = new QWidget(tab_1);
+        widget->setObjectName(QString::fromUtf8("widget"));
+        widget->setGeometry(QRect(20, 10, 551, 231));
+        horizontalLayout_12 = new QHBoxLayout(widget);
+        horizontalLayout_12->setObjectName(QString::fromUtf8("horizontalLayout_12"));
+        horizontalLayout_12->setContentsMargins(0, 0, 0, 0);
+        verticalLayout = new QVBoxLayout();
+        verticalLayout->setObjectName(QString::fromUtf8("verticalLayout"));
+        horizontalLayout_10 = new QHBoxLayout();
+        horizontalLayout_10->setObjectName(QString::fromUtf8("horizontalLayout_10"));
+        label = new QLabel(widget);
+        label->setObjectName(QString::fromUtf8("label"));
+
+        horizontalLayout_10->addWidget(label);
+
+        pushButton_2 = new QPushButton(widget);
+        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
+
+        horizontalLayout_10->addWidget(pushButton_2);
+
+
+        verticalLayout->addLayout(horizontalLayout_10);
+
+        horizontalLayout_8 = new QHBoxLayout();
+        horizontalLayout_8->setObjectName(QString::fromUtf8("horizontalLayout_8"));
+        label_7 = new QLabel(widget);
+        label_7->setObjectName(QString::fromUtf8("label_7"));
+
+        horizontalLayout_8->addWidget(label_7);
+
+        comboBox_7 = new QComboBox(widget);
+        comboBox_7->setObjectName(QString::fromUtf8("comboBox_7"));
+
+        horizontalLayout_8->addWidget(comboBox_7);
+
+
+        verticalLayout->addLayout(horizontalLayout_8);
+
+        horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setObjectName(QString::fromUtf8("horizontalLayout_3"));
+        label_2 = new QLabel(widget);
+        label_2->setObjectName(QString::fromUtf8("label_2"));
+
+        horizontalLayout_3->addWidget(label_2);
+
+        comboBox_2 = new QComboBox(widget);
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->addItem(QString());
+        comboBox_2->setObjectName(QString::fromUtf8("comboBox_2"));
+
+        horizontalLayout_3->addWidget(comboBox_2);
+
+
+        verticalLayout->addLayout(horizontalLayout_3);
+
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
+        label_3 = new QLabel(widget);
+        label_3->setObjectName(QString::fromUtf8("label_3"));
+
+        horizontalLayout_4->addWidget(label_3);
+
+        comboBox_3 = new QComboBox(widget);
+        comboBox_3->addItem(QString());
+        comboBox_3->addItem(QString());
+        comboBox_3->addItem(QString());
+        comboBox_3->addItem(QString());
+        comboBox_3->setObjectName(QString::fromUtf8("comboBox_3"));
+
+        horizontalLayout_4->addWidget(comboBox_3);
+
+
+        verticalLayout->addLayout(horizontalLayout_4);
+
+        horizontalLayout_5 = new QHBoxLayout();
+        horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
+        label_4 = new QLabel(widget);
+        label_4->setObjectName(QString::fromUtf8("label_4"));
+
+        horizontalLayout_5->addWidget(label_4);
+
+        comboBox_4 = new QComboBox(widget);
+        comboBox_4->addItem(QString());
+        comboBox_4->addItem(QString());
+        comboBox_4->addItem(QString());
+        comboBox_4->addItem(QString());
+        comboBox_4->addItem(QString());
+        comboBox_4->setObjectName(QString::fromUtf8("comboBox_4"));
+
+        horizontalLayout_5->addWidget(comboBox_4);
+
+
+        verticalLayout->addLayout(horizontalLayout_5);
+
+        horizontalLayout_6 = new QHBoxLayout();
+        horizontalLayout_6->setObjectName(QString::fromUtf8("horizontalLayout_6"));
+        label_5 = new QLabel(widget);
+        label_5->setObjectName(QString::fromUtf8("label_5"));
+
+        horizontalLayout_6->addWidget(label_5);
+
+        comboBox_5 = new QComboBox(widget);
+        comboBox_5->addItem(QString());
+        comboBox_5->addItem(QString());
+        comboBox_5->addItem(QString());
+        comboBox_5->addItem(QString());
+        comboBox_5->addItem(QString());
+        comboBox_5->setObjectName(QString::fromUtf8("comboBox_5"));
+
+        horizontalLayout_6->addWidget(comboBox_5);
+
+
+        verticalLayout->addLayout(horizontalLayout_6);
+
+
+        horizontalLayout_12->addLayout(verticalLayout);
+
+        textBrowser = new QTextBrowser(widget);
+        textBrowser->setObjectName(QString::fromUtf8("textBrowser"));
+
+        horizontalLayout_12->addWidget(textBrowser);
+
+        horizontalLayout_12->setStretch(0, 1);
+        horizontalLayout_12->setStretch(1, 4);
+        widget1 = new QWidget(tab_1);
+        widget1->setObjectName(QString::fromUtf8("widget1"));
+        widget1->setGeometry(QRect(20, 250, 551, 101));
+        horizontalLayout_11 = new QHBoxLayout(widget1);
+        horizontalLayout_11->setObjectName(QString::fromUtf8("horizontalLayout_11"));
+        horizontalLayout_11->setContentsMargins(0, 0, 0, 0);
+        verticalLayout_2 = new QVBoxLayout();
+        verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
+        pushButton = new QPushButton(widget1);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+
+        verticalLayout_2->addWidget(pushButton);
+
+        pushButton_3 = new QPushButton(widget1);
+        pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
+
+        verticalLayout_2->addWidget(pushButton_3);
+
+
+        horizontalLayout_11->addLayout(verticalLayout_2);
+
+        textEdit = new QTextEdit(widget1);
+        textEdit->setObjectName(QString::fromUtf8("textEdit"));
+
+        horizontalLayout_11->addWidget(textEdit);
+
         tabWidget->addTab(tab_1, QString());
         tab_2 = new QWidget();
         tab_2->setObjectName(QString::fromUtf8("tab_2"));
@@ -118,7 +309,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName(QString::fromUtf8("menubar"));
-        menubar->setGeometry(QRect(0, 0, 651, 21));
+        menubar->setGeometry(QRect(0, 0, 793, 21));
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
@@ -126,7 +317,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        tabWidget->setCurrentIndex(2);
+        tabWidget->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -160,6 +351,42 @@ public:
         ___qlistwidgetitem9->setText(QCoreApplication::translate("MainWindow", "\351\241\265\351\235\24210", nullptr));
         listWidget->setSortingEnabled(__sortingEnabled);
 
+        label->setText(QCoreApplication::translate("MainWindow", "switch", nullptr));
+        pushButton_2->setText(QCoreApplication::translate("MainWindow", "open", nullptr));
+        label_7->setText(QCoreApplication::translate("MainWindow", "Com", nullptr));
+        label_2->setText(QCoreApplication::translate("MainWindow", "Baud", nullptr));
+        comboBox_2->setItemText(0, QCoreApplication::translate("MainWindow", "115200", nullptr));
+        comboBox_2->setItemText(1, QCoreApplication::translate("MainWindow", "57600", nullptr));
+        comboBox_2->setItemText(2, QCoreApplication::translate("MainWindow", "38400", nullptr));
+        comboBox_2->setItemText(3, QCoreApplication::translate("MainWindow", "19200", nullptr));
+        comboBox_2->setItemText(4, QCoreApplication::translate("MainWindow", "9600", nullptr));
+        comboBox_2->setItemText(5, QCoreApplication::translate("MainWindow", "4800", nullptr));
+        comboBox_2->setItemText(6, QCoreApplication::translate("MainWindow", "2400", nullptr));
+        comboBox_2->setItemText(7, QCoreApplication::translate("MainWindow", "1200", nullptr));
+        comboBox_2->setItemText(8, QCoreApplication::translate("MainWindow", "-1", nullptr));
+
+        label_3->setText(QCoreApplication::translate("MainWindow", "Stop", nullptr));
+        comboBox_3->setItemText(0, QCoreApplication::translate("MainWindow", "1", nullptr));
+        comboBox_3->setItemText(1, QCoreApplication::translate("MainWindow", "2", nullptr));
+        comboBox_3->setItemText(2, QCoreApplication::translate("MainWindow", "3", nullptr));
+        comboBox_3->setItemText(3, QCoreApplication::translate("MainWindow", "-1", nullptr));
+
+        label_4->setText(QCoreApplication::translate("MainWindow", "Data", nullptr));
+        comboBox_4->setItemText(0, QCoreApplication::translate("MainWindow", "8", nullptr));
+        comboBox_4->setItemText(1, QCoreApplication::translate("MainWindow", "7", nullptr));
+        comboBox_4->setItemText(2, QCoreApplication::translate("MainWindow", "6", nullptr));
+        comboBox_4->setItemText(3, QCoreApplication::translate("MainWindow", "5", nullptr));
+        comboBox_4->setItemText(4, QCoreApplication::translate("MainWindow", "-1", nullptr));
+
+        label_5->setText(QCoreApplication::translate("MainWindow", "Parity", nullptr));
+        comboBox_5->setItemText(0, QCoreApplication::translate("MainWindow", "None", nullptr));
+        comboBox_5->setItemText(1, QCoreApplication::translate("MainWindow", "Even", nullptr));
+        comboBox_5->setItemText(2, QCoreApplication::translate("MainWindow", "Odd", nullptr));
+        comboBox_5->setItemText(3, QCoreApplication::translate("MainWindow", "Space", nullptr));
+        comboBox_5->setItemText(4, QCoreApplication::translate("MainWindow", "Mark", nullptr));
+
+        pushButton->setText(QCoreApplication::translate("MainWindow", "send", nullptr));
+        pushButton_3->setText(QCoreApplication::translate("MainWindow", "clear", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_1), QCoreApplication::translate("MainWindow", "Tab 1", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QCoreApplication::translate("MainWindow", "Tab 2", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QCoreApplication::translate("MainWindow", "\351\241\265", nullptr));

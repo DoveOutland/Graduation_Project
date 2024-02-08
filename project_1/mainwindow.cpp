@@ -17,5 +17,6 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_listWidget_currentRowChanged(int currentRow)
 {
+    //siwtch tab callback function
     ui->tabWidget->setCurrentIndex(currentRow);
 }
