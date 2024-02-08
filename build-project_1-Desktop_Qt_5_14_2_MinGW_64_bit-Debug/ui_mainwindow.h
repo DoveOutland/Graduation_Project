@@ -41,10 +41,10 @@ public:
     QVBoxLayout *verticalLayout;
     QHBoxLayout *horizontalLayout_10;
     QLabel *label;
-    QPushButton *pushButton_2;
+    QPushButton *pushButton;
     QHBoxLayout *horizontalLayout_8;
     QLabel *label_7;
-    QComboBox *comboBox_7;
+    QComboBox *comboBox;
     QHBoxLayout *horizontalLayout_3;
     QLabel *label_2;
     QComboBox *comboBox_2;
@@ -61,7 +61,7 @@ public:
     QWidget *widget1;
     QHBoxLayout *horizontalLayout_11;
     QVBoxLayout *verticalLayout_2;
-    QPushButton *pushButton;
+    QPushButton *pushButton_2;
     QPushButton *pushButton_3;
     QTextEdit *textEdit;
     QWidget *tab_2;
@@ -130,10 +130,11 @@ public:
 
         horizontalLayout_10->addWidget(label);
 
-        pushButton_2 = new QPushButton(widget);
-        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
+        pushButton = new QPushButton(widget);
+        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+        pushButton->setCheckable(true);
 
-        horizontalLayout_10->addWidget(pushButton_2);
+        horizontalLayout_10->addWidget(pushButton);
 
 
         verticalLayout->addLayout(horizontalLayout_10);
@@ -145,10 +146,10 @@ public:
 
         horizontalLayout_8->addWidget(label_7);
 
-        comboBox_7 = new QComboBox(widget);
-        comboBox_7->setObjectName(QString::fromUtf8("comboBox_7"));
+        comboBox = new QComboBox(widget);
+        comboBox->setObjectName(QString::fromUtf8("comboBox"));
 
-        horizontalLayout_8->addWidget(comboBox_7);
+        horizontalLayout_8->addWidget(comboBox);
 
 
         verticalLayout->addLayout(horizontalLayout_8);
@@ -248,16 +249,16 @@ public:
         horizontalLayout_12->setStretch(1, 4);
         widget1 = new QWidget(tab_1);
         widget1->setObjectName(QString::fromUtf8("widget1"));
-        widget1->setGeometry(QRect(20, 250, 551, 101));
+        widget1->setGeometry(QRect(20, 250, 551, 126));
         horizontalLayout_11 = new QHBoxLayout(widget1);
         horizontalLayout_11->setObjectName(QString::fromUtf8("horizontalLayout_11"));
         horizontalLayout_11->setContentsMargins(0, 0, 0, 0);
         verticalLayout_2 = new QVBoxLayout();
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
-        pushButton = new QPushButton(widget1);
-        pushButton->setObjectName(QString::fromUtf8("pushButton"));
+        pushButton_2 = new QPushButton(widget1);
+        pushButton_2->setObjectName(QString::fromUtf8("pushButton_2"));
 
-        verticalLayout_2->addWidget(pushButton);
+        verticalLayout_2->addWidget(pushButton_2);
 
         pushButton_3 = new QPushButton(widget1);
         pushButton_3->setObjectName(QString::fromUtf8("pushButton_3"));
@@ -351,8 +352,8 @@ public:
         ___qlistwidgetitem9->setText(QCoreApplication::translate("MainWindow", "\351\241\265\351\235\24210", nullptr));
         listWidget->setSortingEnabled(__sortingEnabled);
 
-        label->setText(QCoreApplication::translate("MainWindow", "switch", nullptr));
-        pushButton_2->setText(QCoreApplication::translate("MainWindow", "open", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", "\351\200\211\346\213\251", nullptr));
+        pushButton->setText(QCoreApplication::translate("MainWindow", "\346\211\223\345\274\200\344\270\262\345\217\243", nullptr));
         label_7->setText(QCoreApplication::translate("MainWindow", "Com", nullptr));
         label_2->setText(QCoreApplication::translate("MainWindow", "Baud", nullptr));
         comboBox_2->setItemText(0, QCoreApplication::translate("MainWindow", "115200", nullptr));
@@ -385,8 +386,13 @@ public:
         comboBox_5->setItemText(3, QCoreApplication::translate("MainWindow", "Space", nullptr));
         comboBox_5->setItemText(4, QCoreApplication::translate("MainWindow", "Mark", nullptr));
 
-        pushButton->setText(QCoreApplication::translate("MainWindow", "send", nullptr));
+        pushButton_2->setText(QCoreApplication::translate("MainWindow", "send", nullptr));
         pushButton_3->setText(QCoreApplication::translate("MainWindow", "clear", nullptr));
+        textEdit->setHtml(QCoreApplication::translate("MainWindow", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
+"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
+"p, li { white-space: pre-wrap; }\n"
+"</style></head><body style=\" font-family:'SimSun'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">0x 89 93</p></body></html>", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_1), QCoreApplication::translate("MainWindow", "Tab 1", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_2), QCoreApplication::translate("MainWindow", "Tab 2", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QCoreApplication::translate("MainWindow", "\351\241\265", nullptr));

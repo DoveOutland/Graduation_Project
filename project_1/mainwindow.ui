@@ -125,14 +125,17 @@ QListView::item:selected {background-color:white;color:black}</string>
                <item>
                 <widget class="QLabel" name="label">
                  <property name="text">
-                  <string>switch</string>
+                  <string>选择</string>
                  </property>
                 </widget>
                </item>
                <item>
-                <widget class="QPushButton" name="pushButton_2">
+                <widget class="QPushButton" name="pushButton">
                  <property name="text">
-                  <string>open</string>
+                  <string>打开串口</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
                  </property>
                 </widget>
                </item>
@@ -148,7 +151,7 @@ QListView::item:selected {background-color:white;color:black}</string>
                 </widget>
                </item>
                <item>
-                <widget class="QComboBox" name="comboBox_7"/>
+                <widget class="QComboBox" name="comboBox"/>
                </item>
               </layout>
              </item>
@@ -340,14 +343,14 @@ QListView::item:selected {background-color:white;color:black}</string>
             <x>20</x>
             <y>250</y>
             <width>551</width>
-            <height>101</height>
+            <height>126</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_11">
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_2">
              <item>
-              <widget class="QPushButton" name="pushButton">
+              <widget class="QPushButton" name="pushButton_2">
                <property name="text">
                 <string>send</string>
                </property>
@@ -363,7 +366,15 @@ QListView::item:selected {background-color:white;color:black}</string>
             </layout>
            </item>
            <item>
-            <widget class="QTextEdit" name="textEdit"/>
+            <widget class="QTextEdit" name="textEdit">
+             <property name="html">
+              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'SimSun'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;0x 89 93&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>
