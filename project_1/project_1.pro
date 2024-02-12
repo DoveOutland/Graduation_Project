@@ -23,6 +23,7 @@ SOURCES += \
 
 HEADERS += \
     mainwindow.h \
+    protocol.h \
     qcustomplot.h \
     stable.h
 

@@ -7,6 +7,13 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    //>>>>>>>>>>>>>>>>>协议解析>>>>>>>>>>>>>>>>>
+    qRegisterMetaType<Sensor_Data>("Sensor_Data");
+    memset(alalysis_value, 0, sizeof(alalysis_value));
+
+
+    //<<<<<<<<<<<<<<<<<<协议解析<<<<<<<<<<<<<<<<<<
+
     //>>>>>>>>>>>>>>>>>串口>>>>>>>>>>>>>>>>>
     serialPort = new QSerialPort(this);
     // 扫描本机的串口，并且添加到下拉框里
@@ -35,9 +42,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->sensorPlotWidget->xAxis->setTicker(timeTicker);
     connect(ui->sensorPlotWidget->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->sensorPlotWidget->xAxis2, SLOT(setRange(QCPRange)));
     connect(ui->sensorPlotWidget->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->sensorPlotWidget->yAxis2, SLOT(setRange(QCPRange)));
-
-    // 初始化 x 轴范围=======
-    ui->sensorPlotWidget->xAxis->setRange(0, 10); // 你可以自定义初始范围
     //<<<<<<<<<<<<<<<<<<可视化<<<<<<<<<<<<<<<<<<
 }
 
@@ -46,29 +50,30 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-void MainWindow::on_listWidget_currentRowChanged(int currentRow)
+void MainWindow::on_listWidget_currentRowChanged(int currentRow)//边栏切换
 {
-    //siwtch tab callback function
     ui->tabWidget->setCurrentIndex(currentRow);
 }
 
-void MainWindow::readData()
+void MainWindow::readData()//数据接收
 {
-    // 接收数据
-    //ui->textBrowser->insertPlainText(serialPort->readAll());
     //16进制接收
     QByteArray receivedData = serialPort->readAll();
     QString hexString = QString(receivedData.toHex());
     ui->textBrowser->insertPlainText(hexString);
 
+    //数据解包
+    if(!receivedData.isEmpty())
+    {
+        frame_Unpack(receivedData);
+    }
+
     // 滚动到底部
     ui->textBrowser->verticalScrollBar()->setValue(ui->textBrowser->verticalScrollBar()->maximum());
 }
 
-void MainWindow::on_pushButton_clicked(bool checked)
-{//打开串口
-
+void MainWindow::on_pushButton_clicked(bool checked)//打开串口
+{
     if (checked) {
         // 设置要打开的串口的名字
         serialPort->setPortName(ui->comboBox->currentText());
@@ -132,12 +137,8 @@ void MainWindow::on_pushButton_clicked(bool checked)
     }
 }
 
-
-
-void MainWindow::on_pushButton_2_clicked()
+void MainWindow::on_pushButton_2_clicked()//串口发送
 {
-    // 发送数据
-    //serialPort->write(ui->textEdit->toPlainText().toUtf8());
     //16进制发送
     QString textToSend = ui->textEdit->toPlainText();
     QByteArray byteArray;
@@ -152,15 +153,13 @@ void MainWindow::on_pushButton_2_clicked()
     serialPort->write(byteArray);
 }
 
-void MainWindow::on_pushButton_3_clicked()
+void MainWindow::on_pushButton_3_clicked()//清除发送窗口
 {
     // 清空发送的数据
     ui->textEdit->clear();
 }
-//
 
-
-void MainWindow::on_pushButton_4_clicked(bool checked)
+void MainWindow::on_pushButton_4_clicked(bool checked)// 绘图
 {
     //开始的时间戳
     static double initialTime = QDateTime::currentDateTime().toSecsSinceEpoch();
@@ -181,8 +180,8 @@ void MainWindow::on_pushButton_4_clicked(bool checked)
             currentSeconds = currentTime - initialTime;
             // 更新数据
             this->Time.push_back(currentSeconds);
-            this->Data.push_back(currentSeconds * currentSeconds);
-            this->Sensor_Plot(Time, Data);
+            this->Data.push_back(frame_to_Plot(DataParse));
+            this->basic_Plot(Time, Data);
         });
         timer->start(500);
 
@@ -202,8 +201,9 @@ void MainWindow::on_pushButton_4_clicked(bool checked)
 
 void MainWindow::on_pushButton_5_clicked()//文件数据保存
 {
+    QString defaultPath = QDir::toNativeSeparators(QStandardPaths::writableLocation(QStandardPaths::DownloadLocation));;
     // 创建一个文件选择器
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Data and Plot"), "", tr("PNG Files (*.png);;CSV Files (*.csv)"));
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Data and Plot"), defaultPath, tr("PNG Files (*.png);;CSV Files (*.csv)"));
     if (fileName.isEmpty())
         return;
 
@@ -222,7 +222,7 @@ void MainWindow::on_pushButton_5_clicked()//文件数据保存
     }
 }
 
-void MainWindow::Sensor_Plot(QVector<double> X_Time, QVector<double> Sensor_Value)//绘图底层函数
+void MainWindow::basic_Plot(QVector<double> X_Time, QVector<double> Sensor_Value)//底层绘图接口
 {
     ui->sensorPlotWidget->graph(0)->setData(X_Time, Sensor_Value);
     ui->sensorPlotWidget->graph(0)->rescaleAxes();
@@ -260,4 +260,45 @@ void MainWindow::savePlot(const QString &fileName)//图像保存
 
     QMessageBox::information(this, tr("Success"), tr("Plot saved successfully!"));
 }
+
+double MainWindow::frame_to_Plot(Sensor_Data frame_info)
+{
+    double Value = frame_info.HighDataBit<<8|frame_info.LowDataBit;
+    return Value;
+
+}
+
+//帧最长为256B,(格式:[0xA5] [lenth] (data)*N [0x5A]),data最大253B(当前lenth最大为255,数据若超过256B,则需要拓展lenth字节数)
+void MainWindow::frame_Unpack(QByteArray frame_data)
+{
+    for (int i = 0; i < MAX_LEN; i++)
+    {
+        if(frame_data[i] == char(0xA5))
+        {
+            if(frame_data[i + frame_data[i+1]] == char(0x5A))//frame_data[i+1]固定为lenth，值=从0计数的帧长度(如0xA5 lenth data2 0x5A,则lenth=3)
+            {
+                if(i + frame_data[i+1] > MAX_LEN-1)//帧尾访问越界则视为异常数据
+                {
+                    qDebug()<<"数据异常";
+                    return;
+                }
+                memset(&DataParse, 0, sizeof(Sensor_Data));
+                memcpy(&DataParse, frame_data, sizeof(Sensor_Data));
+                break;
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 

@@ -12,6 +12,7 @@
 #include <QTextStream>
 
 #include "qcustomplot.h"
+#include "protocol.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -48,10 +49,16 @@ private:
     QSerialPort *serialPort;
     QVector<double> Time;
     QVector<double> Data;
+    int alalysis_value[20];
+    double _frame_data;
+    Sensor_Data DataParse;
+    QByteArray DataInfo;
 
-    void Sensor_Plot(QVector<double>, QVector<double>);
+    void basic_Plot(QVector<double>, QVector<double>);
     void savePlot(const QString &fileName);
     void saveCSV(const QString &fileName);
+    void frame_Unpack(QByteArray frame_data);
+    double frame_to_Plot(Sensor_Data frame_info);
 
 };
 #endif // MAINWINDOW_H
