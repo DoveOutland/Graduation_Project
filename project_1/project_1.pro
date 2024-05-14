@@ -19,13 +19,20 @@ LIBS += -lopengl32 -lglu32
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    qcustomplot.cpp
+    plot.cpp \
+    protocol.cpp \
+    qcustomplot.cpp \
+    speed.cpp \
+    temperature.cpp
 
 HEADERS += \
     mainwindow.h \
+    plot.h \
     protocol.h \
     qcustomplot.h \
-    stable.h
+    speed.h \
+    stable.h \
+    temperature.h
 
 FORMS += \
     mainwindow.ui

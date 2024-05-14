@@ -13,6 +13,9 @@
 
 #include "qcustomplot.h"
 #include "protocol.h"
+#include "plot.h"
+#include "speed.h"
+#include "temperature.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

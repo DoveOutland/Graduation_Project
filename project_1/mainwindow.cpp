@@ -43,6 +43,22 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->sensorPlotWidget->xAxis, SIGNAL(rangeChanged(QCPRange)), ui->sensorPlotWidget->xAxis2, SLOT(setRange(QCPRange)));
     connect(ui->sensorPlotWidget->yAxis, SIGNAL(rangeChanged(QCPRange)), ui->sensorPlotWidget->yAxis2, SLOT(setRange(QCPRange)));
     //<<<<<<<<<<<<<<<<<<可视化<<<<<<<<<<<<<<<<<<
+
+    // 创建 Speed 控件添加布局到 tab_3
+    Speed *speedWidget = new Speed(ui->tab_3);
+    if (ui->tab_3->layout() == nullptr) {
+        QVBoxLayout *layout = new QVBoxLayout(ui->tab_3);
+        ui->tab_3->setLayout(layout);
+    }
+    ui->tab_3->layout()->addWidget(speedWidget);
+
+    // 创建并添加 Temperature 控件到 tab_4
+    Temperature *temperatureWidget = new Temperature(ui->tab_4);
+    if (ui->tab_4->layout() == nullptr) {
+        QVBoxLayout *layout = new QVBoxLayout(ui->tab_4);
+        ui->tab_4->setLayout(layout);
+    }
+    ui->tab_4->layout()->addWidget(temperatureWidget);
 }
 
 MainWindow::~MainWindow()
@@ -53,23 +69,6 @@ MainWindow::~MainWindow()
 void MainWindow::on_listWidget_currentRowChanged(int currentRow)//边栏切换
 {
     ui->tabWidget->setCurrentIndex(currentRow);
-}
-
-void MainWindow::readData()//数据接收
-{
-    //16进制接收
-    QByteArray receivedData = serialPort->readAll();
-    QString hexString = QString(receivedData.toHex());
-    ui->textBrowser->insertPlainText(hexString);
-
-    //数据解包
-    if(!receivedData.isEmpty())
-    {
-        frame_Unpack(receivedData);
-    }
-
-    // 滚动到底部
-    ui->textBrowser->verticalScrollBar()->setValue(ui->textBrowser->verticalScrollBar()->maximum());
 }
 
 void MainWindow::on_pushButton_clicked(bool checked)//打开串口
@@ -222,73 +221,7 @@ void MainWindow::on_pushButton_5_clicked()//文件数据保存
     }
 }
 
-void MainWindow::basic_Plot(QVector<double> X_Time, QVector<double> Sensor_Value)//底层绘图接口
-{
-    ui->sensorPlotWidget->graph(0)->setData(X_Time, Sensor_Value);
-    ui->sensorPlotWidget->graph(0)->rescaleAxes();
-    ui->sensorPlotWidget->replot(QCustomPlot::rpQueuedReplot);
-}
 
-void MainWindow::saveCSV(const QString &fileName)//csv文件保存
-{
-    QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        QMessageBox::warning(this, tr("Warning"), tr("Cannot write file %1:\n%2.").arg(file.fileName()).arg(file.errorString()));
-        return;
-    }
-    QTextStream out(&file);
-    // 写入表头
-    out << "X Data, Y Data" << endl;
-    // 写入数据
-    for (int i = 0; i < Time.size(); ++i) {
-        out << QString::number(Time[i]) << "," << QString::number(Data[i]) << endl;
-    }
-    file.close();
-    QMessageBox::information(this, tr("Success"), tr("Data saved successfully!"));
-}
-
-void MainWindow::savePlot(const QString &fileName)//图像保存
-{
-    // 获取图像
-    QPixmap pixmap = ui->sensorPlotWidget->toPixmap();
-
-    // 保存图像
-    if (!pixmap.save(fileName)) {
-        QMessageBox::warning(this, tr("Warning"), tr("Cannot save plot to file %1.").arg(fileName));
-        return;
-    }
-
-    QMessageBox::information(this, tr("Success"), tr("Plot saved successfully!"));
-}
-
-double MainWindow::frame_to_Plot(Sensor_Data frame_info)
-{
-    double Value = frame_info.HighDataBit<<8|frame_info.LowDataBit;
-    return Value;
-
-}
-
-//帧最长为256B,(格式:[0xA5] [lenth] (data)*N [0x5A]),data最大253B(当前lenth最大为255,数据若超过256B,则需要拓展lenth字节数)
-void MainWindow::frame_Unpack(QByteArray frame_data)
-{
-    for (int i = 0; i < MAX_LEN; i++)
-    {
-        if(frame_data[i] == char(0xA5))
-        {
-            if(frame_data[i + frame_data[i+1]] == char(0x5A))//frame_data[i+1]固定为lenth，值=从0计数的帧长度(如0xA5 lenth data2 0x5A,则lenth=3)
-            {
-                if(i + frame_data[i+1] > MAX_LEN-1)//帧尾访问越界则视为异常数据
-                {
-                    qDebug()<<"数据异常";
-                    return;
-                }
-                memset(&DataParse, 0, sizeof(Sensor_Data));
-                memcpy(&DataParse, frame_data, sizeof(Sensor_Data));
-                break;
-            }
-        }
-    }
-}
 
 
 

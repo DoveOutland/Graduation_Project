@@ -51,22 +51,22 @@ QListView::item:selected {background-color:white;color:black}</string>
         </item>
         <item>
          <property name="text">
-          <string>Plot</string>
+          <string>绘图</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>页面3</string>
+          <string>转速</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>页面4</string>
+          <string>温度</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>页面5</string>
+          <string>压力</string>
          </property>
         </item>
         <item>
@@ -103,7 +103,7 @@ QListView::item:selected {background-color:white;color:black}</string>
 QTabBar::tab{width:0px;height:0px}</string>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="tab_1">
          <attribute name="title">
