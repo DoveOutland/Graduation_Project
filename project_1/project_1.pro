@@ -20,6 +20,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     plot.cpp \
+    pressure.cpp \
     protocol.cpp \
     qcustomplot.cpp \
     speed.cpp \
@@ -28,6 +29,7 @@ SOURCES += \
 HEADERS += \
     mainwindow.h \
     plot.h \
+    pressure.h \
     protocol.h \
     qcustomplot.h \
     speed.h \

@@ -1,18 +1,28 @@
 #include "temperature.h"
+#include <QTime>
 #include <cmath>
 
-Temperature::Temperature(QWidget *parent) : QWidget(parent) {
-    temperatureSlider = new QSlider(Qt::Horizontal, this);
-    temperatureSlider->setRange(0, 100);
-
-    temperatureLabel = new QLabel("Temperature: 0°C", this);
+Temperature::Temperature(QWidget *parent)
+    : QWidget(parent),
+      ambientTemp(20.0),
+      temperature(ambientTemp),  // 此时 ambientTemp 已经初始化
+      simulationTime(0),
+      currentMode(0),
+      initialTemp(5.0),
+      maxTemp(100.0),
+      coldTemp(99.0),
+      tau(50.0),
+      tauPrime(30.0),
+      tauDoublePrime(20.0) {
+    setFixedSize(1400, 1050);
 
     startButton = new QPushButton("Start", this);
     stopButton = new QPushButton("Stop", this);
-
+    temperatureSlider = new QSlider(Qt::Horizontal, this);
+    temperatureSlider->setRange(0, 100);
+    temperatureLabel = new QLabel("Temperature: 0°C", this);
     scenarioSelector = new QComboBox(this);
-    scenarioSelector->addItems({"Normal Operation", "High Load", "Cold Start"});
-
+    scenarioSelector->addItems({"一般启动", "高负载启动", "冷启动"});
     temperatureProgress = new QProgressBar(this);
     temperatureProgress->setRange(0, 100);
 
@@ -23,15 +33,33 @@ Temperature::Temperature(QWidget *parent) : QWidget(parent) {
     layout->addWidget(startButton);
     layout->addWidget(stopButton);
     layout->addWidget(scenarioSelector);
+    setLayout(layout);
 
     simulationTimer = new QTimer(this);
-    simulationTimer->setInterval(100);
     connect(simulationTimer, &QTimer::timeout, this, &Temperature::simulateTemperatureChange);
-
-    connect(scenarioSelector, SIGNAL(currentIndexChanged(int)), this, SLOT(scenarioChanged(int)));
     connect(temperatureSlider, &QSlider::valueChanged, this, &Temperature::updateTemperature);
     connect(startButton, &QPushButton::clicked, this, &Temperature::startSimulation);
     connect(stopButton, &QPushButton::clicked, this, &Temperature::stopSimulation);
+    connect(scenarioSelector, QOverload<int>::of(&QComboBox::currentIndexChanged),
+            this, &Temperature::scenarioChanged);
+
+    temperatureData.reserve(100);  // Prepare space for 100 data points
+}
+
+void Temperature::paintEvent(QPaintEvent *event) {
+    Q_UNUSED(event); // 显式声明未使用的参数
+
+    QPainter painter(this);
+    painter.setPen(Qt::red);
+    int y0 = height() / 2;
+    if (!temperatureData.isEmpty()) {
+        int x = 0;
+        for (int i = 1; i < temperatureData.size(); ++i) {
+            painter.drawLine(x, y0 - static_cast<int>(temperatureData[i - 1] * 2),
+                             x + 8, y0 - static_cast<int>(temperatureData[i] * 2));
+            x += 8;
+        }
+    }
 }
 
 void Temperature::updateTemperature(int value) {
@@ -40,23 +68,22 @@ void Temperature::updateTemperature(int value) {
 }
 
 void Temperature::startSimulation() {
-    // Implement simulation start logic
-    simulationTimer->start();
+    simulationTimer->start(100);  // Start the timer with an interval of 100ms
 }
 
 void Temperature::stopSimulation() {
-    // Implement simulation stop logic
-    temperature = 0;
-    temperatureSlider->setValue(temperature);
     simulationTimer->stop();
 }
 
 void Temperature::loadScenario() {
-    // Implement scenario loading logic
+    // Placeholder for scenario loading logic
 }
-void Temperature::simulateTemperatureChange() {
-    simulationTime += 1;  // Increase time step
 
+void Temperature::simulateTemperatureChange() {
+    // Increment simulation time
+    simulationTime++;
+
+    // Calculate temperature based on the current mode
     switch(currentMode) {
         case 0: // Normal Operation
             temperature = ambientTemp + (initialTemp - ambientTemp) * exp(-simulationTime / tau);
@@ -69,56 +96,23 @@ void Temperature::simulateTemperatureChange() {
             break;
     }
 
-    temperatureSlider->setValue(static_cast<int>(temperature));
+    // Update the temperature data and GUI elements
+    temperatureData.append(temperature);
+    if (temperatureData.size() > 100) {
+        temperatureData.pop_front();
+    }
     updateTemperature(static_cast<int>(temperature));
-
-    // 发送更新的温度值
-    sendTemperature(static_cast<int>(temperature));
+    update();  // Redraw the widget
 }
+
 void Temperature::scenarioChanged(int index) {
-    currentMode = index;  // 直接使用下拉列表的索引来设置当前模式
-    // 可以在这里重置模拟时间或进行其他相关设置
-    simulationTime = 0;  // 重置模拟时间
-    temperature = 0;
-    temperatureSlider->setValue(ambientTemp);  // 重置滑块位置到环境温度
-    sendTemperature(temperature);
+    currentMode = index;
+    simulationTime = 0;
+    temperatureData.clear();
+    update();  // Reset and redraw
 }
+
 void Temperature::sendTemperature(int temperature) {
-    // 将温度值转换为字节数组
-    QByteArray commandPart = QByteArray::number(temperature);
-
-    // 创建数据帧，以0xA5作为帧头
-    QByteArray frame = QByteArray::fromHex("A5");
-    frame += QByteArray(1, '\x00');  // 预留长度位
-    frame += commandPart;
-    frame += QByteArray::fromHex("5A");  // 帧尾
-
-    // 计算整帧的长度，并设置在帧的第二位
-    int totalLength = frame.size() + 1;  // 加1是因为长度字节本身也需要计算
-    frame[1] = static_cast<char>(totalLength);
-
-    // 发送命令
-    emit sendCommand(frame);
-    qDebug()<<"temperature command sent:"<<frame;
+    Q_UNUSED(temperature);
+    // Implement sending temperature data via some communication protocol
 }
-/*
-### 主要功能
-1. **温度范围设定**：通过滑动条调整模拟的温度范围。
-2. **实时温度显示**：实时显示当前模拟温度。
-3. **预设场景选择**：通过下拉菜单选择不同的温度模拟场景。
-4. **模拟控制**：通过开始和停止按钮控制温度模拟的开始和结束。
-5. **温度变化可视化**：通过进度条显示温度的实时变化。
-
-### 操作方式
-1. **调整温度**：
-   - 使用滑动条来设置想要模拟的具体温度值。
-   - 滑动条通常设置有最小值和最大值，例如从0°C到100°C。
-
-2. **查看当前温度**：
-   - 观察标签上显示的当前温度值，该标签会实时更新以反映滑动条的位置。
-
-3. **选择模拟场景**：
-   - 从下拉菜单中选择预设的温度场景，如“正常操作”、“高负载”或“冷启动”。
-   - 每个场景都预设了特定的温度变化曲线和持续时间。
-
-*/

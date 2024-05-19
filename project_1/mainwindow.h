@@ -16,6 +16,7 @@
 #include "plot.h"
 #include "speed.h"
 #include "temperature.h"
+#include "pressure.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }

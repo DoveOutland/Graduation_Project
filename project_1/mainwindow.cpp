@@ -59,6 +59,14 @@ MainWindow::MainWindow(QWidget *parent)
         ui->tab_4->setLayout(layout);
     }
     ui->tab_4->layout()->addWidget(temperatureWidget);
+
+    // 创建并添加 Pressure 控件到 tab_5
+        Pressure *pressureWidget = new Pressure(ui->tab_5);
+        if (ui->tab_5->layout() == nullptr) {
+            QVBoxLayout *layout = new QVBoxLayout(ui->tab_5);
+            ui->tab_5->setLayout(layout);
+        }
+        ui->tab_5->layout()->addWidget(pressureWidget);
 }
 
 MainWindow::~MainWindow()

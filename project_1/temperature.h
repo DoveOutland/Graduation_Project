@@ -9,16 +9,16 @@
 #include <QProgressBar>
 #include <QVBoxLayout>
 #include <QTimer>
+#include <QPainter>
 
-class Temperature : public QWidget
-{
+class Temperature : public QWidget {
     Q_OBJECT
 
 public:
     explicit Temperature(QWidget *parent = nullptr);
 
-signals:
-    void sendCommand(const QByteArray &command);
+protected:
+    void paintEvent(QPaintEvent *event) override;
 
 private slots:
     void updateTemperature(int value);
@@ -37,11 +37,12 @@ private:
     QProgressBar *temperatureProgress;
     QTimer *simulationTimer;
 
+    QVector<double> temperatureData; // Data for plotting temperature curve
+    double ambientTemp = 20.0;  // Example ambient temperature
+    double temperature;         // Depends on ambientTemp for initialization
     int simulationTime = 0;
     int currentMode = 0;
-    double temperature = 0.0;
-    double ambientTemp = 20.0;  // Example ambient temperature
-    double initialTemp = 5.0;  // Initial temperature
+    double initialTemp = 5.0;   // Initial temperature
     double maxTemp = 100.0;     // Maximum temperature for high load
     double coldTemp = 99.0;     // Target temperature for cold start
     double tau = 50.0;          // Time constant for normal operation

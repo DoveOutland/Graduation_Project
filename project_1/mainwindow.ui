@@ -103,7 +103,7 @@ QListView::item:selected {background-color:white;color:black}</string>
 QTabBar::tab{width:0px;height:0px}</string>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="tab_1">
          <attribute name="title">
